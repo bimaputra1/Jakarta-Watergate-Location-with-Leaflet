@@ -1,0 +1,41 @@
+---
+title: "Water Gate Location in Jakarta Indonesia"
+author: "Bima Putra Pratama"
+date: "Jan 14th, 2020"
+output:
+  html_document:
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+This map is shows the distribution of water gate in Jakarta, Indonesia.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,echo=FALSE, include=FALSE}
+library("leaflet")
+library("tidyverse")
+library("knitr")
+```
+
+```{r, echo=FALSE}
+df <- read.csv("MukaAirJakartaDec19.csv", sep = ",")
+watergate <- distinct(df[,1:4])
+```
+
+```{r out.width="100%", echo=FALSE}
+watergate %>%
+  leaflet() %>% 
+  addTiles() %>% 
+  addMarkers(lng=~longitude, lat=~latitude,label =~nama_pintu_air, clusterOptions = markerClusterOptions())
+```
+
+The details of each location can be seen below:
+```{r, echo=FALSE}
+kable(watergate)
+```
+
+
